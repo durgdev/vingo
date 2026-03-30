@@ -17,10 +17,7 @@ app.use("/api/auth",authrouter)
 app.listen(port,()=>{
 
     connectDb()
-    console.log(typeof process.env.EMAIL_USER);
-console.log(typeof process.env.EMAIL_PASS);
-    console.log("EMAIL:", process.env.EMAIL_USER);
-console.log("PASS:", process.env.EMAIL_PASS);
+   
     console.log(`server start at ${port}`);
     
 })
