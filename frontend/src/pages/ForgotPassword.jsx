@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { serverUrl } from "../App";
-
+import { useNavigate } from "react-router-dom";
 const ForgotPassword = () => {
-
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const [email, setEmail] = useState("");
@@ -59,8 +59,12 @@ const ForgotPassword = () => {
         email,
         password: newPassword,
       });
+
       setMessage("Password updated successfully");
-      setStep(1);
+
+      setTimeout(() => {
+        navigate("/signin");
+      }, 1500);
     } catch (err) {
       setMessage("Error resetting password");
     }
