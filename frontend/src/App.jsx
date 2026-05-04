@@ -13,7 +13,7 @@ import AddItem from './pages/AddItem'
 import EditItem from './pages/EditItem'
 import useGetShopByCity from './hooks/useGetShopByCity'
 import useGetItemByCity from './hooks/useGetItemByCity'
-export const serverUrl = "https://vingo-backend-78u2.onrender.com"
+export const serverUrl ="https://vingo-backend-plum.vercel.app"
 const App = () => {
 
   useGetCurrentUser()
