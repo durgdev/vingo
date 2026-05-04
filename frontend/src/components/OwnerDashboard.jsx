@@ -100,7 +100,7 @@ import { setmyShopData } from '../redux/ownerSlice'
 import { FaUtensils } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom'
 import { FaPen } from "react-icons/fa";
-import OwnerItemCard from './ownerItemCard';
+import OwnerItemCard from './OwnerItemCard';
 
 const OwnerDashboard = () => {
   const { myShopData } = useSelector(state => state.owner)
