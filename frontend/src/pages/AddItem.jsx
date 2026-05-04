@@ -1,13 +1,11 @@
 
-
-
-
+import axios from 'axios';
 import React, { useState } from 'react'
 import { FaUtensils, FaArrowLeft } from "react-icons/fa"
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import { serverUrl } from '../App'
 import { useNavigate } from 'react-router-dom'
+import { setmyShopData } from '../redux/ownerSlice'   // ✅ ADDED
 
 const AddItem = () => {
   
@@ -49,6 +47,7 @@ const AddItem = () => {
     formdata.append("category", formData.category)
     formdata.append("foodType", formData.foodType)
     formdata.append("shop", myShopData?._id)
+
     if (formData.image) {
       formdata.append("image", formData.image)
     }
@@ -67,6 +66,10 @@ const AddItem = () => {
 
       console.log("Item added:", result.data)
 
+      // ✅ ADDED (ONLY THIS)
+      dispatch(setmyShopData(result.data))
+      navigate("/")
+
     } catch (error) {
       console.log("Error:", error)
     } finally {
@@ -76,11 +79,10 @@ const AddItem = () => {
 
   return (
     <>
-      {/* 🔙 Back Arrow FIXED */}
       <div className="fixed top-6 left-6 z-[9999]">
         <button
           onClick={() => navigate('/')}
-          className="p-3  bg-white border shadow-lg hover:scale-110 transition"
+          className="p-3 bg-white border shadow-lg hover:scale-110 transition"
         >
           <FaArrowLeft className="text-[#ff4d2d]" size={18} />
         </button>
@@ -90,7 +92,6 @@ const AddItem = () => {
 
         <div className="w-full max-w-md bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-7 border border-gray-100">
 
-          {/* Header */}
           <div className="flex flex-col items-center mb-6">
             <div className="bg-gradient-to-tr from-[#ff4d2d] to-[#ff7a5c] p-4 rounded-full shadow-md">
               <FaUtensils className='text-white w-6 h-6' />
@@ -105,7 +106,6 @@ const AddItem = () => {
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
             <input
@@ -152,7 +152,6 @@ const AddItem = () => {
               <option>Others</option>
             </select>
 
-            {/* Veg Toggle */}
             <div className="flex gap-2 bg-gray-100 p-1 rounded-xl">
               <button
                 type="button"
@@ -179,7 +178,6 @@ const AddItem = () => {
               </button>
             </div>
 
-            {/* File Upload */}
             <input
               type="file"
               name="image"
@@ -188,7 +186,6 @@ const AddItem = () => {
               required
             />
 
-            {/* Preview */}
             {preview && (
               <img
                 src={preview}
@@ -197,7 +194,6 @@ const AddItem = () => {
               />
             )}
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}

@@ -101,3 +101,105 @@ export const editItem = async (req, res) => {
     return res.status(500).json({ message: `edit item error ${error}` })
   }
 }
+
+// export const deleteItem=async(req,res)=>{
+//   try {
+//     const itemId=req.params.itemId
+//     const item=await Item.findByIdAndDelete(itemId)
+//      if(!item){
+//           return res.status(400).json({message: "item not found"})
+//         }
+//         const shop=await Shop.findOne({owner:req.userId})
+//         shop.items=shop.items.filter(i=>i._id!==item._id)
+//         await shop.save()
+//         await shop.populate("items")
+//         return res.status(200).json(shop)
+//   } catch (error) {
+//        return res.status(500).json({ message: `delete item error ${error}` })
+//   }
+// }
+export const deleteItem = async (req, res) => {
+  try {
+    const itemId = req.params.itemId;
+
+    const item = await Item.findByIdAndDelete(itemId);
+
+    if (!item) {
+      return res.status(400).json({ message: "item not found" });
+    }
+
+    const shop = await Shop.findOne({ owner: req.userId });
+
+    shop.items = shop.items.filter(
+      i => i.toString() !== item._id.toString()
+    );
+
+    await shop.save();
+    await shop.populate("items owner");
+
+    return res.status(200).json(shop);
+
+  } catch (error) {
+    return res.status(500).json({ message: `delete item error ${error}` });
+  }
+};
+
+// export const getItemByCity=async(req,res)=>{
+//   try {
+//     const {city}=req.params
+//     if(!city){
+//       return res.status(400).json({message:"city is required"})
+      
+//           const shops = await Shop.find({
+//             city: { $regex: `^${cleanCity}$`, $options: "i" } // ✅ exact match ignore case
+//           });
+      
+//           if (shops.length === 0) {
+//             return res.status(404).json({ message: "No shops found" });
+//           }
+//       const shopIds=shops.map((shop)=>shop._id)
+//       const items=await.find({shop:{$in:shopIds}})
+//       return res.status(200).json({message:`delete item error ${error}`})
+//     }
+
+//   } catch (error) {
+//      return res.status(500).json({ message: `get item error by city ${error}` });
+//   }
+// }
+export const getItemByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+
+    if (!city) {
+      return res.status(400).json({ message: "city is required" });
+    }
+
+    // ✅ clean city (optional but good)
+    const cleanCity = city.trim();
+
+    // ✅ find shops in that city
+    const shops = await Shop.find({
+      city: { $regex: `^${cleanCity}$`, $options: "i" } // ignore case
+    });
+
+    if (shops.length === 0) {
+      return res.status(404).json({ message: "No shops found" });
+    }
+
+    // ✅ get shop ids
+    const shopIds = shops.map((shop) => shop._id);
+
+    // ✅ find items of those shops
+    const items = await Item.find({
+      shop: { $in: shopIds }
+    });
+
+    return res.status(200).json(items);
+
+  } catch (error) {
+    console.log("GET ITEM BY CITY ERROR:", error);
+    return res.status(500).json({
+      message: `get item by city error ${error.message}`
+    });
+  }
+};
