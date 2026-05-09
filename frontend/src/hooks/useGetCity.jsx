@@ -109,8 +109,8 @@ const useGetCity = () => {
         console.log("📍 Longitude:", longitude);
 
         try {
-          const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${apiKey}`;
-          
+         
+           const url=`https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${VITE_GEOAPIKEY}`
           // ✅ CHECK 4 - URL check
           console.log("🌐 Calling URL:", url);
 
