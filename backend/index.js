@@ -11,18 +11,6 @@ import itemrouter from "./routes/item.routes.js"
 
 const app = express()
 
-// ✅ Manual CORS - Sabse Pehle
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://vingo-frontend-dun.vercel.app");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type,Authorization,Cookie");
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-  next();
-});
-
 app.use(cors({
   origin: "https://vingo-frontend-dun.vercel.app",
   credentials: true,
@@ -30,6 +18,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
 }))
 
+app.options('*', cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authrouter)
