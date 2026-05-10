@@ -17,10 +17,10 @@ export const serverUrl ="https://vingo-backend-plum.vercel.app"
 const App = () => {
 
   useGetCurrentUser()
-  useGetCity()
-  useGetMyshop()
-  useGetShopByCity()
-   useGetItemByCity()
+  // useGetCity()
+  // useGetMyshop()
+  // useGetShopByCity()
+  //  useGetItemByCity()
   const { userData } = useSelector(state => state.user)
 
   return (
